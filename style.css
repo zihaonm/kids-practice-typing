@@ -13,6 +13,7 @@ body {
     align-items: flex-start;
     padding: 10px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .container {
@@ -24,6 +25,7 @@ body {
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     max-height: 100vh;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 header {
@@ -1037,13 +1039,27 @@ h1 {
 }
 
 .keyboard-visual {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
     margin-bottom: 10px;
     padding: 10px;
-    background: #f0f0f0;
+    background: #f8f9fa;
     border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.keyboard-visual svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.keyboard-visual svg .key-rect {
+    transition: transform 0.1s ease, fill 0.2s ease, stroke 0.2s ease, filter 0.3s ease;
+}
+
+.keyboard-visual svg .key-rect:hover {
+    opacity: 0.9;
 }
 
 .keyboard-row {

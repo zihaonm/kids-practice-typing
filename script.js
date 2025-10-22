@@ -170,7 +170,7 @@ const streakEl = document.getElementById('streak');
 const startBtn = document.getElementById('startBtn');
 const resetBtn = document.getElementById('resetBtn');
 const soundBtn = document.getElementById('soundBtn');
-const keyboardEl = document.getElementById('keyboard');
+const keyboardSVG = document.getElementById('keyboard');
 
 // Win modal elements
 const winModalEl = document.getElementById('winModal');
@@ -227,52 +227,58 @@ const lessonStartInstructionsEl = document.getElementById('lessonStartInstructio
 const lessonStartKeysEl = document.getElementById('lessonStartKeys');
 const startLessonBtn = document.getElementById('startLessonBtn');
 
-// Initialize keyboard visual
-function createKeyboard() {
-    const rows = [
-       
-        ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P','[',']','\\'],
-        ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L',';','\'', 'ENTER'],
-        ['Z', 'X', 'C', 'V', 'B', 'N', 'M',',','.','/']
-    ];
+// Helper function to get SVG key element
+function getSVGKey(keyId) {
+    return document.getElementById(keyId);
+}
 
-    keyboardEl.innerHTML = '';
-
-    rows.forEach((row, rowIndex) => {
-        const rowEl = document.createElement('div');
-        rowEl.className = 'keyboard-row';
-
-        row.forEach(letter => {
-            const keyEl = document.createElement('div');
-            const fingerClass = fingerMap[letter] || '';
-            keyEl.className = `key finger-${fingerClass}`;
-
-            // Add special class for Enter key
-            if (letter === 'ENTER') {
-                keyEl.classList.add('enter-key');
-            }
-
-            keyEl.textContent = letter;
-            keyEl.dataset.key = letter === 'ENTER' ? 'Enter' : letter;
-            keyEl.dataset.finger = fingerClass;
-            rowEl.appendChild(keyEl);
-        });
-
-        keyboardEl.appendChild(rowEl);
+// Helper function to highlight SVG key
+function highlightSVGKey(keyId) {
+    // Remove all highlights
+    const allKeys = keyboardSVG.querySelectorAll('.key-rect');
+    allKeys.forEach(key => {
+        key.style.stroke = '';
+        key.style.strokeWidth = '';
+        key.style.filter = '';
     });
 
-    // Add spacebar row
-    const spaceRow = document.createElement('div');
-    spaceRow.className = 'keyboard-row space-row';
+    // Highlight the target key
+    const key = getSVGKey(keyId);
+    if (key) {
+        key.style.stroke = '#667eea';
+        key.style.strokeWidth = '4';
+        key.style.filter = 'drop-shadow(0 0 10px rgba(102, 126, 234, 0.6))';
+    }
+}
 
-    const spaceKey = document.createElement('div');
-    spaceKey.className = 'key spacebar finger-thumb';
-    spaceKey.textContent = 'SPACE';
-    spaceKey.dataset.key = ' ';
-    spaceKey.dataset.finger = 'thumb';
+// Helper function to press SVG key
+function pressSVGKey(keyId) {
+    const key = getSVGKey(keyId);
+    if (key) {
+        const originalFill = key.style.fill || key.getAttribute('fill') || window.getComputedStyle(key).fill;
+        key.style.fill = '#4caf50';
+        setTimeout(() => {
+            key.style.fill = '';
+        }, 200);
+    }
+}
 
-    spaceRow.appendChild(spaceKey);
-    keyboardEl.appendChild(spaceRow);
+// Helper function to show wrong key
+function wrongSVGKey(keyId) {
+    const key = getSVGKey(keyId);
+    if (key) {
+        const originalFill = key.style.fill || key.getAttribute('fill') || window.getComputedStyle(key).fill;
+        key.style.fill = '#f44336';
+        setTimeout(() => {
+            key.style.fill = '';
+        }, 300);
+    }
+}
+
+// Initialize keyboard (no longer needed, but keep for compatibility)
+function createKeyboard() {
+    // Keyboard is now embedded as SVG in HTML
+    console.log('SVG keyboard embedded in HTML');
 }
 
 // Mode selection handlers
@@ -542,22 +548,24 @@ function renderTargetText() {
     const currentChar = currentTarget[currentPosition];
     if (currentChar) {
         const keyToHighlight = currentChar.toUpperCase();
-        const targetKey = document.querySelector(`[data-key="${keyToHighlight}"]`);
-        if (targetKey) {
-            document.querySelectorAll('.key').forEach(key => {
-                key.classList.remove('highlight');
-            });
-            targetKey.classList.add('highlight');
 
-            const fingerClass = fingerMap[keyToHighlight];
-            if (fingerClass) {
-                document.querySelectorAll('.finger-visual').forEach(finger => {
-                    finger.classList.remove('active');
-                });
-                const fingerEl = document.querySelector(`.${fingerClass}-visual`);
-                if (fingerEl) {
-                    fingerEl.classList.add('active');
-                }
+        // Map some special characters to SVG key IDs
+        let svgKeyId = keyToHighlight;
+        if (keyToHighlight === ' ') svgKeyId = 'SPACE';
+        if (keyToHighlight === 'ENTER') svgKeyId = 'ENTER';
+
+        // Highlight SVG key
+        highlightSVGKey(svgKeyId);
+
+        // Highlight finger visual
+        const fingerClass = fingerMap[keyToHighlight];
+        if (fingerClass) {
+            document.querySelectorAll('.finger-visual').forEach(finger => {
+                finger.classList.remove('active');
+            });
+            const fingerEl = document.querySelector(`.${fingerClass}-visual`);
+            if (fingerEl) {
+                fingerEl.classList.add('active');
             }
         }
     }
@@ -569,33 +577,21 @@ function setNewTarget() {
     currentInput = '';
     currentPosition = 0;
 
-    // Remove all highlights
-    document.querySelectorAll('.key').forEach(key => {
-        key.classList.remove('highlight', 'pressed', 'wrong');
+    // Remove all highlights from SVG keyboard
+    const allKeys = keyboardSVG.querySelectorAll('.key-rect');
+    allKeys.forEach(key => {
+        key.style.stroke = '';
+        key.style.strokeWidth = '';
+        key.style.filter = '';
     });
+
+    // Remove finger highlights
     document.querySelectorAll('.finger-visual').forEach(finger => {
         finger.classList.remove('active');
     });
 
     // Render the target text with highlighting
     renderTargetText();
-
-    // Highlight target key for letter mode
-    if (currentMode === 'letters') {
-        currentLetter = currentTarget;
-        const targetKey = document.querySelector(`[data-key="${currentTarget}"]`);
-        if (targetKey) {
-            targetKey.classList.add('highlight');
-
-            const fingerClass = fingerMap[currentTarget];
-            if (fingerClass) {
-                const fingerEl = document.querySelector(`.${fingerClass}-visual`);
-                if (fingerEl) {
-                    fingerEl.classList.add('active');
-                }
-            }
-        }
-    }
 
     // Reset timer on first character
     if (!startTime) {
@@ -622,36 +618,6 @@ function getRandomLetter() {
     const levelIndex = Math.min(level - 1, letterSets.length - 1);
     const letters = letterSets[levelIndex];
     return letters[Math.floor(Math.random() * letters.length)];
-}
-
-// Set new target letter
-function setNewLetter() {
-    currentLetter = getRandomLetter();
-    targetLetterEl.textContent = currentLetter;
-    inputDisplayEl.textContent = '';
-
-    // Remove all highlights
-    document.querySelectorAll('.key').forEach(key => {
-        key.classList.remove('highlight', 'pressed', 'wrong');
-    });
-    document.querySelectorAll('.finger-visual').forEach(finger => {
-        finger.classList.remove('active');
-    });
-
-    // Highlight the target key
-    const targetKey = document.querySelector(`[data-key="${currentLetter}"]`);
-    if (targetKey) {
-        targetKey.classList.add('highlight');
-
-        // Highlight the corresponding finger
-        const fingerClass = fingerMap[currentLetter];
-        if (fingerClass) {
-            const fingerEl = document.querySelector(`.${fingerClass}-visual`);
-            if (fingerEl) {
-                fingerEl.classList.add('active');
-            }
-        }
-    }
 }
 
 // Show encouragement message
@@ -908,8 +874,9 @@ function handleKeyPress(event) {
         ? pressedKey.toUpperCase() === targetChar.toUpperCase()
         : pressedKey === targetChar;
 
-    // Find the key element on keyboard
-    const keyEl = document.querySelector(`[data-key="${pressedKey.toUpperCase()}"]`);
+    // Map pressed key to SVG key ID
+    let svgKeyId = pressedKey.toUpperCase();
+    if (svgKeyId === ' ') svgKeyId = 'SPACE';
 
     if (isCorrect) {
         // Correct key pressed!
@@ -918,13 +885,8 @@ function handleKeyPress(event) {
         totalCharacters++;
         currentPosition++;
 
-        if (keyEl) {
-            keyEl.classList.remove('highlight', 'wrong');
-            keyEl.classList.add('pressed');
-            setTimeout(() => {
-                keyEl.classList.remove('pressed');
-            }, 200);
-        }
+        // Show press animation on SVG keyboard
+        pressSVGKey(svgKeyId);
 
         // Check if target is complete
         if (currentPosition >= currentTarget.length) {
@@ -971,12 +933,8 @@ function handleKeyPress(event) {
         totalCharacters++;
         streak = 0;
 
-        if (keyEl) {
-            keyEl.classList.add('wrong');
-            setTimeout(() => {
-                keyEl.classList.remove('wrong');
-            }, 300);
-        }
+        // Show wrong key animation on SVG keyboard
+        wrongSVGKey(svgKeyId);
 
         // Mark current character as incorrect temporarily
         const chars = targetTextEl.querySelectorAll('.char');
@@ -1054,10 +1012,15 @@ function resetGame() {
     updateProgressDisplay();
     progressDisplayEl.classList.remove('nearly-done');
 
-    // Remove all highlights
-    document.querySelectorAll('.key').forEach(key => {
-        key.classList.remove('highlight', 'pressed', 'wrong');
+    // Remove all highlights from SVG keyboard
+    const allKeys = keyboardSVG.querySelectorAll('.key-rect');
+    allKeys.forEach(key => {
+        key.style.stroke = '';
+        key.style.strokeWidth = '';
+        key.style.filter = '';
     });
+
+    // Remove finger highlights
     document.querySelectorAll('.finger-visual').forEach(finger => {
         finger.classList.remove('active');
     });
@@ -1148,6 +1111,28 @@ characterButtons.forEach(btn => {
             setCharacter(btn.dataset.character);
         }
     });
+});
+
+// Add keyboard event listener for visual feedback on SVG keyboard
+document.addEventListener('keydown', (event) => {
+    if (!keyboardSVG) return;
+
+    let key = event.key.toUpperCase();
+    if (key === ' ') key = 'SPACE';
+    if (key === 'ENTER') key = 'ENTER';
+    if (key === 'SHIFT') key = event.code.includes('LEFT') ? 'SHIFTLEFT' : 'SHIFTRIGHT';
+    if (key === 'CONTROL') key = event.code.includes('LEFT') ? 'CTRLLEFT' : 'CTRLRIGHT';
+    if (key === 'ALT') key = event.code.includes('LEFT') ? 'ALTLEFT' : 'ALTRIGHT';
+    if (key === 'CAPSLOCK') key = 'CAPSLOCK';
+    if (key === 'TAB') key = 'TAB';
+
+    const keyRect = document.getElementById(key);
+    if (keyRect) {
+        keyRect.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            keyRect.style.transform = '';
+        }, 100);
+    }
 });
 
 // Initialize

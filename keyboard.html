@@ -1,0 +1,118 @@
+<html>
+<head>
+<style>
+  svg rect {
+    cursor: pointer;
+    transition: transform 0.1s ease, fill 0.2s ease;
+  }
+  svg rect:active {
+    transform: scale(0.9);
+  }
+</style>
+</head>
+<body>
+<svg id="keyboard" width="1200" height="500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500">
+  <rect width="1200" height="500" fill="#f8f9fa"/>
+
+  <defs>
+    <style>
+      .left-pinky { fill: #ffb6b6; }
+      .left-ring { fill: #ffd59e; }
+      .left-middle { fill: #fff59d; }
+      .left-index { fill: #a5d6a7; }
+      .right-index { fill: #81d4fa; }
+      .right-middle { fill: #64b5f6; }
+      .right-ring { fill: #ba68c8; }
+      .right-pinky { fill: #f48fb1; }
+      .pressed { fill: #333 !important; }
+    </style>
+  </defs>
+
+  <g id="keys" transform="translate(50,50)">
+    <!-- Row 1 -->
+    <g id="row1">
+      <rect id="TAB" x="0" y="0" width="70" height="60" rx="8" class="left-pinky"/><text x="35" y="38" text-anchor="middle">Tab</text>
+      <rect id="Q" x="80" y="0" width="60" height="60" rx="8" class="left-pinky"/><text x="110" y="38" text-anchor="middle">Q</text>
+      <rect id="W" x="150" y="0" width="60" height="60" rx="8" class="left-ring"/><text x="180" y="38" text-anchor="middle">W</text>
+      <rect id="E" x="220" y="0" width="60" height="60" rx="8" class="left-middle"/><text x="250" y="38" text-anchor="middle">E</text>
+      <rect id="R" x="290" y="0" width="60" height="60" rx="8" class="left-index"/><text x="320" y="38" text-anchor="middle">R</text>
+      <rect id="T" x="360" y="0" width="60" height="60" rx="8" class="left-index"/><text x="390" y="38" text-anchor="middle">T</text>
+      <rect id="Y" x="430" y="0" width="60" height="60" rx="8" class="right-index"/><text x="460" y="38" text-anchor="middle">Y</text>
+      <rect id="U" x="500" y="0" width="60" height="60" rx="8" class="right-index"/><text x="530" y="38" text-anchor="middle">U</text>
+      <rect id="I" x="570" y="0" width="60" height="60" rx="8" class="right-middle"/><text x="600" y="38" text-anchor="middle">I</text>
+      <rect id="O" x="640" y="0" width="60" height="60" rx="8" class="right-ring"/><text x="670" y="38" text-anchor="middle">O</text>
+      <rect id="P" x="710" y="0" width="60" height="60" rx="8" class="right-pinky"/><text x="740" y="38" text-anchor="middle">P</text>
+      <rect id="[" x="780" y="0" width="60" height="60" rx="8" class="right-pinky"/><text x="810" y="38" text-anchor="middle">[</text>
+      <rect id="]" x="850" y="0" width="60" height="60" rx="8" class="right-pinky"/><text x="880" y="38" text-anchor="middle">]</text>
+      <rect id="\\" x="920" y="0" width="60" height="60" rx="8" class="right-pinky"/><text x="950" y="38" text-anchor="middle">\\</text>
+    </g>
+
+    <!-- Row 2 -->
+    <g id="row2" transform="translate(20,80)">
+      <rect id="CAPSLOCK" x="0" y="0" width="90" height="60" rx="8" class="left-pinky"/><text x="45" y="38" text-anchor="middle">Caps</text>
+      <rect id="A" x="100" y="0" width="60" height="60" rx="8" class="left-pinky"/><text x="130" y="38" text-anchor="middle">A</text>
+      <rect id="S" x="170" y="0" width="60" height="60" rx="8" class="left-ring"/><text x="200" y="38" text-anchor="middle">S</text>
+      <rect id="D" x="240" y="0" width="60" height="60" rx="8" class="left-middle"/><text x="270" y="38" text-anchor="middle">D</text>
+      <rect id="F" x="310" y="0" width="60" height="60" rx="8" class="left-index"/><text x="340" y="38" text-anchor="middle">F</text>
+      <rect id="G" x="380" y="0" width="60" height="60" rx="8" class="left-index"/><text x="410" y="38" text-anchor="middle">G</text>
+      <rect id="H" x="450" y="0" width="60" height="60" rx="8" class="right-index"/><text x="480" y="38" text-anchor="middle">H</text>
+      <rect id="J" x="520" y="0" width="60" height="60" rx="8" class="right-index"/><text x="550" y="38" text-anchor="middle">J</text>
+      <rect id="K" x="590" y="0" width="60" height="60" rx="8" class="right-middle"/><text x="620" y="38" text-anchor="middle">K</text>
+      <rect id="L" x="660" y="0" width="60" height="60" rx="8" class="right-ring"/><text x="690" y="38" text-anchor="middle">L</text>
+      <rect id=";" x="730" y="0" width="60" height="60" rx="8" class="right-pinky"/><text x="760" y="38" text-anchor="middle">;</text>
+      <rect id="'" x="800" y="0" width="60" height="60" rx="8" class="right-pinky"/><text x="830" y="38" text-anchor="middle">'</text>
+      <rect id="ENTER" x="870" y="0" width="100" height="60" rx="8" class="right-pinky"/><text x="920" y="38" text-anchor="middle">Enter</text>
+    </g>
+
+    <!-- Row 3 -->
+    <g id="row3" transform="translate(40,160)">
+      <rect id="SHIFTLEFT" x="0" y="0" width="110" height="60" rx="8" class="left-pinky"/><text x="55" y="38" text-anchor="middle">Shift</text>
+      <rect id="Z" x="120" y="0" width="60" height="60" rx="8" class="left-pinky"/><text x="150" y="38" text-anchor="middle">Z</text>
+      <rect id="X" x="190" y="0" width="60" height="60" rx="8" class="left-ring"/><text x="220" y="38" text-anchor="middle">X</text>
+      <rect id="C" x="260" y="0" width="60" height="60" rx="8" class="left-middle"/><text x="290" y="38" text-anchor="middle">C</text>
+      <rect id="V" x="330" y="0" width="60" height="60" rx="8" class="left-index"/><text x="360" y="38" text-anchor="middle">V</text>
+      <rect id="B" x="400" y="0" width="60" height="60" rx="8" class="left-index"/><text x="430" y="38" text-anchor="middle">B</text>
+      <rect id="N" x="470" y="0" width="60" height="60" rx="8" class="right-index"/><text x="500" y="38" text-anchor="middle">N</text>
+      <rect id="M" x="540" y="0" width="60" height="60" rx="8" class="right-index"/><text x="570" y="38" text-anchor="middle">M</text>
+      <rect id="," x="610" y="0" width="60" height="60" rx="8" class="right-ring"/><text x="640" y="38" text-anchor="middle">,</text>
+      <rect id="." x="680" y="0" width="60" height="60" rx="8" class="right-ring"/><text x="710" y="38" text-anchor="middle">.</text>
+      <rect id="/" x="750" y="0" width="60" height="60" rx="8" class="right-pinky"/><text x="780" y="38" text-anchor="middle">/</text>
+      <rect id="SHIFTRIGHT" x="820" y="0" width="110" height="60" rx="8" class="right-pinky"/><text x="875" y="38" text-anchor="middle">Shift</text>
+    </g>
+
+    <!-- Bottom row -->
+    <g id="row4" transform="translate(30,240)">
+      <rect id="CTRLLEFT" x="0" y="0" width="80" height="60" rx="8" class="left-pinky"/><text x="40" y="38" text-anchor="middle">Ctrl</text>
+      <rect id="ALTLEFT" x="90" y="0" width="80" height="60" rx="8" class="left-ring"/><text x="130" y="38" text-anchor="middle">Alt</text>
+      <rect id="SPACE" x="180" y="0" width="400" height="60" rx="8" fill="#e0f7fa"/><text x="380" y="38" text-anchor="middle">Space</text>
+      <rect id="ALTRIGHT" x="590" y="0" width="80" height="60" rx="8" class="right-ring"/><text x="630" y="38" text-anchor="middle">Alt</text>
+      <rect id="CTRLRIGHT" x="680" y="0" width="80" height="60" rx="8" class="right-pinky"/><text x="720" y="38" text-anchor="middle">Ctrl</text>
+    </g>
+  </g>
+</svg>
+
+<script>
+const keys = document.querySelectorAll('#keyboard rect');
+
+function pressKey(keyId) {
+  const rect = document.getElementById(keyId);
+  if (rect) {
+    rect.classList.add('pressed');
+    setTimeout(() => rect.classList.remove('pressed'), 200);
+  }
+}
+
+document.addEventListener('keydown', (event) => {
+  let key = event.key.toUpperCase();
+  if (key === ' ') key = 'SPACE';
+  if (key === 'SHIFT') key = event.code.includes('LEFT') ? 'SHIFTLEFT' : 'SHIFTRIGHT';
+  if (key === 'CONTROL') key = event.code.includes('LEFT') ? 'CTRLLEFT' : 'CTRLRIGHT';
+  if (key === 'ALT') key = event.code.includes('LEFT') ? 'ALTLEFT' : 'ALTRIGHT';
+  if (key === 'CAPSLOCK') key = 'CAPSLOCK';
+  if (key === 'ENTER') key = 'ENTER';
+  if (key === 'TAB') key = 'TAB';
+  pressKey(key);
+});
+</script>
+</body>
+</html>
