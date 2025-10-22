@@ -294,6 +294,9 @@ function setMode(mode) {
     } else {
         targetTextEl.classList.remove('letter-mode');
     }
+
+    // Show/hide quantity selector based on mode
+    updateQuantitySelectorVisibility();
 }
 
 function setDifficulty(difficulty) {
@@ -310,13 +313,37 @@ function setQuantity(quantity) {
     });
 }
 
+// Update quantity selector visibility based on mode
+function updateQuantitySelectorVisibility() {
+    const quantitySelector = document.getElementById('quantitySelector');
+
+    // Only show quantity selector for letters and words modes
+    if (currentMode === 'letters' || currentMode === 'words') {
+        quantitySelector.classList.remove('hidden');
+    } else {
+        // For sentences and paragraphs, hide the selector
+        quantitySelector.classList.add('hidden');
+    }
+}
+
 // Progress tracking functions
 function updateProgressDisplay() {
-    itemsCompletedEl.textContent = itemsCompleted;
-    itemsTargetEl.textContent = targetQuantity;
+    // For sentences and paragraphs, show character count instead of item count
+    if (currentMode === 'sentences' || currentMode === 'paragraphs') {
+        itemsCompletedEl.textContent = correctCharacters;
+        itemsTargetEl.textContent = targetQuantity;
+    } else {
+        // For letters and words, show item count
+        itemsCompletedEl.textContent = itemsCompleted;
+        itemsTargetEl.textContent = targetQuantity;
+    }
 
     // Add animation when nearly done (90% or more)
-    if (itemsCompleted >= targetQuantity * 0.9) {
+    const progress = (currentMode === 'sentences' || currentMode === 'paragraphs')
+        ? correctCharacters / targetQuantity
+        : itemsCompleted / targetQuantity;
+
+    if (progress >= 0.9) {
         progressDisplayEl.classList.add('nearly-done');
     } else {
         progressDisplayEl.classList.remove('nearly-done');
@@ -324,6 +351,8 @@ function updateProgressDisplay() {
 }
 
 function checkCompletion() {
+    // For letters and words, check item count
+    // (Sentences and paragraphs complete immediately after one item)
     if (itemsCompleted >= targetQuantity) {
         completePractice();
     }
@@ -335,7 +364,9 @@ function completePractice() {
 
     // Calculate final stats
     const timeElapsed = (Date.now() - startTime) / 1000;
-    const finalWPM = Math.round((wordsTyped / (timeElapsed / 60)) || 0);
+    // Calculate WPM based on characters typed (standard is 5 characters = 1 word)
+    const wordsCalculated = correctCharacters / 5;
+    const finalWPM = Math.round((wordsCalculated / (timeElapsed / 60)) || 0);
     const finalAccuracy = Math.round((correctCharacters / totalCharacters) * 100) || 100;
 
     // If in lesson mode, mark lesson as completed
@@ -347,8 +378,15 @@ function completePractice() {
     }
 
     // Update win stats
+    let completedLabel;
+    if (currentMode === 'sentences' || currentMode === 'paragraphs') {
+        completedLabel = `<div>✅ Completed: <strong>${correctCharacters} characters</strong></div>`;
+    } else {
+        completedLabel = `<div>✅ Completed: <strong>${itemsCompleted} items</strong></div>`;
+    }
+
     let statsHTML = `
-        <div>✅ Completed: <strong>${itemsCompleted} items</strong></div>
+        ${completedLabel}
         <div>⏱️ Time: <strong>${Math.round(timeElapsed)}s</strong></div>
         <div>⭐ Stars: <strong>${starCount}</strong></div>
         <div>💎 Gems: <strong>${gemCount}</strong></div>
@@ -385,6 +423,9 @@ function setCharacter(character) {
 function goToStep2() {
     step1El.classList.add('hidden');
     step2El.classList.remove('hidden');
+
+    // Update quantity selector visibility based on current mode
+    updateQuantitySelectorVisibility();
 }
 
 function goToStep1() {
@@ -577,6 +618,13 @@ function setNewTarget() {
     currentInput = '';
     currentPosition = 0;
 
+    // For sentences and paragraphs, set target quantity to the character count of this item
+    if (currentMode === 'sentences' || currentMode === 'paragraphs') {
+        targetQuantity = currentTarget.length;
+        // Update progress display with the new target
+        updateProgressDisplay();
+    }
+
     // Remove all highlights from SVG keyboard
     const allKeys = keyboardSVG.querySelectorAll('.key-rect');
     allKeys.forEach(key => {
@@ -601,9 +649,11 @@ function setNewTarget() {
 
 // Calculate WPM and Accuracy
 function updateTypingStats() {
-    if (startTime && totalCharacters > 0) {
+    if (startTime && correctCharacters > 0) {
         const timeElapsed = (Date.now() - startTime) / 1000 / 60; // minutes
-        const wpm = Math.round((wordsTyped / timeElapsed) || 0);
+        // Calculate WPM based on characters typed (standard is 5 characters = 1 word)
+        const wordsCalculated = correctCharacters / 5;
+        const wpm = Math.round((wordsCalculated / timeElapsed) || 0);
         wpmEl.textContent = wpm;
     }
 
@@ -855,6 +905,26 @@ function resetRace() {
     }
 }
 
+// Update race progress per character typed
+function updateRaceProgressPerCharacter() {
+    let progressIncrement = 0;
+
+    if (currentMode === 'letters') {
+        // For letters, each letter is a complete item, so calculate per item
+        progressIncrement = (1 / targetQuantity) * 100;
+    } else if (currentMode === 'words') {
+        // For words, calculate based on total expected characters
+        // Estimate: average word is 5 characters, so total chars = targetQuantity * 5
+        const estimatedTotalChars = targetQuantity * 5;
+        progressIncrement = (1 / estimatedTotalChars) * 100;
+    } else if (currentMode === 'sentences' || currentMode === 'paragraphs') {
+        // For sentences/paragraphs, calculate based on current item length
+        progressIncrement = (1 / targetQuantity) * 100;
+    }
+
+    updateRaceProgress(progressIncrement);
+}
+
 // Unified keyboard handler for all modes
 function handleKeyPress(event) {
     if (!isPlaying) return;
@@ -888,6 +958,17 @@ function handleKeyPress(event) {
         // Show press animation on SVG keyboard
         pressSVGKey(svgKeyId);
 
+        // Update race progress smoothly on each character
+        updateRaceProgressPerCharacter();
+
+        // Update progress display for sentences/paragraphs on each character
+        if (currentMode === 'sentences' || currentMode === 'paragraphs') {
+            updateProgressDisplay();
+        }
+
+        // Update typing stats on each character for smooth feedback
+        updateTypingStats();
+
         // Check if target is complete
         if (currentPosition >= currentTarget.length) {
             // Completed the target!
@@ -908,23 +989,30 @@ function handleKeyPress(event) {
             updateProgressDisplay();
             checkLevelUp();
 
-            // Update race progress based on mode
-            const progressPerItem = 100 / targetQuantity;
-            updateRaceProgress(progressPerItem);
+            // Race progress is already updated per character, no need to update here
+            // Just ensure we're at 100% if there's any rounding error
+            if (raceProgress < 100) {
+                updateRaceProgress(100 - raceProgress);
+            }
 
-            // Check if practice is complete
-            checkCompletion();
+            // For sentences/paragraphs, complete practice immediately after one item
+            if (currentMode === 'sentences' || currentMode === 'paragraphs') {
+                completePractice();
+            } else {
+                // Check if practice is complete for letters/words
+                checkCompletion();
 
-            // Next target (if not complete)
-            if (itemsCompleted < targetQuantity) {
-                setTimeout(() => {
-                    setNewTarget();
-                }, 300);
+                // Next target (if not complete)
+                if (itemsCompleted < targetQuantity) {
+                    setTimeout(() => {
+                        setNewTarget();
+                    }, 300);
+                }
             }
         } else {
             // Continue with next character
             renderTargetText();
-            updateTypingStats();
+            // Typing stats already updated above
         }
 
     } else {
@@ -949,6 +1037,7 @@ function handleKeyPress(event) {
         showEncouragement(message, false);
 
         updateStats();
+        // Update typing stats to show accuracy decrease in real-time
         updateTypingStats();
     }
 }
@@ -966,12 +1055,20 @@ function startGame() {
     currentPosition = 0;
     itemsCompleted = 0;
 
+    // For sentences and paragraphs, targetQuantity will be set by setNewTarget()
+    // based on the actual length of the sentence/paragraph loaded
+    // For letters and words, targetQuantity is already set by user selection
+
     // Update message based on mode
     if (isLessonMode && currentLesson) {
         messageEl.textContent = currentLesson.instructions;
         // Don't show lesson info panel - only popup is used
     } else if (currentMode === 'letters') {
         messageEl.textContent = 'Type the letter shown above!';
+    } else if (currentMode === 'sentences') {
+        messageEl.textContent = 'Type the sentence shown above!';
+    } else if (currentMode === 'paragraphs') {
+        messageEl.textContent = 'Type the paragraph shown above!';
     } else {
         messageEl.textContent = 'Type what you see!';
     }
