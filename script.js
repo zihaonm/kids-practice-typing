@@ -219,6 +219,14 @@ const lessonTitleEl = document.getElementById('lessonTitle');
 const lessonInstructionsEl = document.getElementById('lessonInstructions');
 const lessonKeysEl = document.getElementById('lessonKeys');
 
+// Lesson start modal elements
+const lessonStartModalEl = document.getElementById('lessonStartModal');
+const lessonStartEmojiEl = document.getElementById('lessonStartEmoji');
+const lessonStartTitleEl = document.getElementById('lessonStartTitle');
+const lessonStartInstructionsEl = document.getElementById('lessonStartInstructions');
+const lessonStartKeysEl = document.getElementById('lessonStartKeys');
+const startLessonBtn = document.getElementById('startLessonBtn');
+
 // Initialize keyboard visual
 function createKeyboard() {
     const rows = [
@@ -381,8 +389,14 @@ function goToStep1() {
 function showGameArea() {
     step2El.classList.add('hidden');
     gameAreaEl.classList.remove('hidden');
-    // Start the game
-    startGame();
+
+    // If in lesson mode, show the lesson start modal instead of starting immediately
+    if (isLessonMode && currentLesson) {
+        showLessonStartModal();
+    } else {
+        // Free practice mode - start immediately
+        startGame();
+    }
 }
 
 // Learning path navigation
@@ -458,17 +472,27 @@ function selectLesson(lesson) {
     updateLessonInfo();
 }
 
-// Update lesson info panel
+// Update lesson info panel (now only used for modal, panel stays hidden)
 function updateLessonInfo() {
+    // Keep lessonInfo panel hidden - we only use the popup modal now
+    lessonInfoEl.classList.add('hidden');
+}
+
+// Show lesson start modal
+function showLessonStartModal() {
     if (currentLesson) {
-        lessonEmojiEl.textContent = currentLesson.emoji;
-        lessonTitleEl.textContent = currentLesson.title;
-        lessonInstructionsEl.textContent = currentLesson.instructions;
-        lessonKeysEl.textContent = `Allowed keys: ${currentLesson.keys.join(' ')}`;
-        lessonInfoEl.classList.remove('hidden');
-    } else {
-        lessonInfoEl.classList.add('hidden');
+        lessonStartEmojiEl.textContent = currentLesson.emoji;
+        lessonStartTitleEl.textContent = currentLesson.title;
+        lessonStartInstructionsEl.textContent = currentLesson.instructions;
+        lessonStartKeysEl.textContent = currentLesson.keys.join(' ');
+        lessonStartModalEl.classList.remove('hidden');
     }
+}
+
+// Hide lesson start modal and start game
+function hideLessonStartModal() {
+    lessonStartModalEl.classList.add('hidden');
+    startGame();
 }
 
 // Get next target based on mode and difficulty
@@ -498,38 +522,34 @@ function getNextTarget() {
 
 // Render target text with character highlighting
 function renderTargetText() {
-    if (currentMode === 'letters') {
-        // For letter mode, just show the single letter
-        targetTextEl.textContent = currentTarget;
-    } else {
-        // For words/sentences/paragraphs, wrap each character in a span
-        targetTextEl.innerHTML = '';
-        for (let i = 0; i < currentTarget.length; i++) {
-            const span = document.createElement('span');
-            span.className = 'char';
-            span.textContent = currentTarget[i];
+    // Always wrap characters in spans for highlighting (including letter mode and lesson mode)
+    targetTextEl.innerHTML = '';
+    for (let i = 0; i < currentTarget.length; i++) {
+        const span = document.createElement('span');
+        span.className = 'char';
+        span.textContent = currentTarget[i];
 
-            if (i < currentPosition) {
-                span.classList.add('correct');
-            } else if (i === currentPosition) {
-                span.classList.add('current');
-            }
-
-            targetTextEl.appendChild(span);
+        if (i < currentPosition) {
+            span.classList.add('correct');
+        } else if (i === currentPosition) {
+            span.classList.add('current');
         }
+
+        targetTextEl.appendChild(span);
     }
 
     // Highlight keyboard key for current character
     const currentChar = currentTarget[currentPosition];
-    if (currentChar && currentChar.toUpperCase() !== currentChar.toLowerCase()) {
-        const targetKey = document.querySelector(`[data-key="${currentChar.toUpperCase()}"]`);
+    if (currentChar) {
+        const keyToHighlight = currentChar.toUpperCase();
+        const targetKey = document.querySelector(`[data-key="${keyToHighlight}"]`);
         if (targetKey) {
             document.querySelectorAll('.key').forEach(key => {
                 key.classList.remove('highlight');
             });
             targetKey.classList.add('highlight');
 
-            const fingerClass = fingerMap[currentChar.toUpperCase()];
+            const fingerClass = fingerMap[keyToHighlight];
             if (fingerClass) {
                 document.querySelectorAll('.finger-visual').forEach(finger => {
                     finger.classList.remove('active');
@@ -783,7 +803,6 @@ function handleNextLesson() {
 
         if (nextLesson) {
             currentLesson = nextLesson;
-            updateLessonInfo();
 
             // Reset game state but keep in game area
             score = 0;
@@ -799,8 +818,8 @@ function handleNextLesson() {
             updateStats();
             resetRace();
 
-            // Start new game with next lesson
-            startGame();
+            // Show popup for next lesson, then start game
+            showLessonStartModal();
         } else {
             // No more lessons, go back to lesson selection
             resetGame();
@@ -992,7 +1011,7 @@ function startGame() {
     // Update message based on mode
     if (isLessonMode && currentLesson) {
         messageEl.textContent = currentLesson.instructions;
-        updateLessonInfo();  // Show lesson info panel
+        // Don't show lesson info panel - only popup is used
     } else if (currentMode === 'letters') {
         messageEl.textContent = 'Type the letter shown above!';
     } else {
@@ -1045,8 +1064,9 @@ function resetGame() {
 
     document.removeEventListener('keydown', handleKeyPress);
 
-    // Hide win modal
+    // Hide win modal and lesson start modal
     winModalEl.classList.add('hidden');
+    lessonStartModalEl.classList.add('hidden');
 
     // Go back to appropriate screen based on mode
     gameAreaEl.classList.add('hidden');
@@ -1057,11 +1077,13 @@ function resetGame() {
         lessonSelectionEl.classList.remove('hidden');
         generateLessonsGrid();  // Refresh to show newly completed lessons
         currentLesson = null;
-        lessonInfoEl.classList.add('hidden');
     } else {
         // Go back to step 1 (free practice settings)
         step1El.classList.remove('hidden');
     }
+
+    // Always keep lesson info panel hidden
+    lessonInfoEl.classList.add('hidden');
 }
 
 // Toggle sound
@@ -1079,6 +1101,7 @@ function toggleSound() {
 startBtn.addEventListener('click', showGameArea);
 resetBtn.addEventListener('click', resetGame);
 soundBtn.addEventListener('click', toggleSound);
+startLessonBtn.addEventListener('click', hideLessonStartModal);
 
 // Learning path selection
 selectLessonsBtn.addEventListener('click', selectLessonsPath);
