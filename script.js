@@ -295,7 +295,8 @@ function setMode(mode) {
         targetTextEl.classList.remove('letter-mode');
     }
 
-    // Show/hide quantity selector based on mode
+
+    // Update quantity selector visibility based on mode
     updateQuantitySelectorVisibility();
 }
 
@@ -317,8 +318,10 @@ function setQuantity(quantity) {
 function updateQuantitySelectorVisibility() {
     const quantitySelector = document.getElementById('quantitySelector');
 
-    // Only show quantity selector for letters and words modes
-    if (currentMode === 'letters' || currentMode === 'words') {
+
+    // Show quantity selector for letters, words, and lesson modes
+    // Hide for sentences and paragraphs (they use character count from the sentence/paragraph itself)
+    if (currentMode === 'letters' || currentMode === 'words' || isLessonMode) {
         quantitySelector.classList.remove('hidden');
     } else {
         // For sentences and paragraphs, hide the selector
@@ -517,6 +520,9 @@ function selectLesson(lesson) {
 
     // Update lesson info display
     updateLessonInfo();
+
+    // Update quantity selector visibility for lesson mode
+    updateQuantitySelectorVisibility();
 }
 
 // Update lesson info panel (now only used for modal, panel stays hidden)
@@ -618,7 +624,8 @@ function setNewTarget() {
     currentInput = '';
     currentPosition = 0;
 
-    // For sentences and paragraphs, set target quantity to the character count of this item
+
+    // For sentences and paragraphs, set targetQuantity to the character count of this item
     if (currentMode === 'sentences' || currentMode === 'paragraphs') {
         targetQuantity = currentTarget.length;
         // Update progress display with the new target
@@ -958,8 +965,12 @@ function handleKeyPress(event) {
         // Show press animation on SVG keyboard
         pressSVGKey(svgKeyId);
 
-        // Update race progress smoothly on each character
-        updateRaceProgressPerCharacter();
+
+        // Update race progress smoothly on each character for sentences/paragraphs
+        if (currentMode === 'sentences' || currentMode === 'paragraphs') {
+            const progressPerChar = 100 / targetQuantity;
+            updateRaceProgress(progressPerChar);
+        }
 
         // Update progress display for sentences/paragraphs on each character
         if (currentMode === 'sentences' || currentMode === 'paragraphs') {
@@ -989,10 +1000,11 @@ function handleKeyPress(event) {
             updateProgressDisplay();
             checkLevelUp();
 
-            // Race progress is already updated per character, no need to update here
-            // Just ensure we're at 100% if there's any rounding error
-            if (raceProgress < 100) {
-                updateRaceProgress(100 - raceProgress);
+
+            // Update race progress for letters/words (not sentences/paragraphs - already updated per char)
+            if (currentMode !== 'sentences' && currentMode !== 'paragraphs') {
+                const progressPerItem = 100 / targetQuantity;
+                updateRaceProgress(progressPerItem);
             }
 
             // For sentences/paragraphs, complete practice immediately after one item
