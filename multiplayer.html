@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplayer Typing Race</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="multiplayer.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏁 Multiplayer Typing Race</h1>
+            <p class="subtitle">Race against players from around the world!</p>
+        </header>
+
+        <!-- Connection Status -->
+        <div class="connection-status" id="connectionStatus">
+            <span class="status-indicator" id="statusIndicator">⚪</span>
+            <span id="statusText">Connecting...</span>
+        </div>
+
+        <!-- Username Setup -->
+        <div class="setup-screen" id="usernameSetup">
+            <div class="username-box">
+                <h2>Enter Your Username</h2>
+                <input type="text" id="usernameInput" placeholder="Your name..." maxlength="20" />
+                <button class="btn btn-primary" id="setUsernameBtn">Continue</button>
+            </div>
+        </div>
+
+        <!-- Lobby Selection -->
+        <div class="lobby-screen hidden" id="lobbySelection">
+            <div class="lobby-options">
+                <div class="lobby-option">
+                    <div class="option-icon">🎮</div>
+                    <h3>Quick Match</h3>
+                    <p>Join a public race instantly</p>
+                    <button class="btn btn-primary" id="quickMatchBtn">Quick Match</button>
+                </div>
+                <div class="lobby-option">
+                    <div class="option-icon">🔑</div>
+                    <h3>Create Private Room</h3>
+                    <p>Create a room and invite friends</p>
+                    <button class="btn btn-secondary" id="createRoomBtn">Create Room</button>
+                </div>
+                <div class="lobby-option">
+                    <div class="option-icon">🚪</div>
+                    <h3>Join Private Room</h3>
+                    <input type="text" id="roomCodeInput" placeholder="Enter room code..." maxlength="6" />
+                    <button class="btn btn-secondary" id="joinRoomBtn">Join Room</button>
+                </div>
+            </div>
+            <div class="home-link">
+                <a href="index.html" class="btn btn-back">← Back to Practice</a>
+            </div>
+        </div>
+
+        <!-- Waiting Room -->
+        <div class="waiting-room hidden" id="waitingRoom">
+            <div class="room-info">
+                <h2>Room: <span id="roomCode"></span></h2>
+                <button class="btn btn-secondary btn-small" id="copyRoomCodeBtn">📋 Copy Code</button>
+            </div>
+
+            <div class="players-list">
+                <h3>Players in Room (<span id="playerCount">0</span>)</h3>
+                <div id="playersList"></div>
+            </div>
+
+            <div class="waiting-status">
+                <p id="waitingMessage">Waiting for players to join...</p>
+            </div>
+
+            <div class="room-controls">
+                <button class="btn btn-primary" id="startRaceBtn" disabled>Start Race</button>
+                <button class="btn btn-back" id="leaveRoomBtn">Leave Room</button>
+            </div>
+        </div>
+
+        <!-- Race Area -->
+        <div class="race-area hidden" id="raceArea">
+            <div class="race-header">
+                <div class="countdown" id="countdown"></div>
+                <div class="race-timer">Time: <span id="raceTimer">0</span>s</div>
+            </div>
+
+            <div class="target-text-display">
+                <div id="targetText" class="target-text"></div>
+            </div>
+
+            <div class="typing-input-area">
+                <input type="text" id="typingInput" class="typing-input" placeholder="Start typing..." disabled />
+                <div class="typing-stats">
+                    <span>WPM: <span id="wpm">0</span></span>
+                    <span>Accuracy: <span id="accuracy">100</span>%</span>
+                </div>
+            </div>
+
+            <div class="race-players">
+                <h3>Race Progress</h3>
+                <div id="racePlayers"></div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div class="results-screen hidden" id="resultsScreen">
+            <div class="results-content">
+                <h2>🏆 Race Complete!</h2>
+                <div class="results-leaderboard" id="resultsLeaderboard"></div>
+                <div class="results-actions">
+                    <button class="btn btn-primary" id="playAgainBtn">🏁 Start New Race</button>
+                    <button class="btn btn-secondary" id="backToLobbyBtn">🚪 Exit to Lobby</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="typing-content.js"></script>
+    <script src="multiplayer.js"></script>
+</body>
+</html>

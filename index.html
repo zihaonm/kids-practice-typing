@@ -33,6 +33,13 @@
                     <p class="path-description">Practice typing with custom settings if you already know the basics</p>
                     <button class="btn btn-secondary path-btn" id="selectPracticeBtn">Free Practice →</button>
                 </div>
+
+                <div class="path-option" data-path="multiplayer">
+                    <div class="path-icon">🏁</div>
+                    <h3 class="path-title">Multiplayer Race</h3>
+                    <p class="path-description">Compete with players around the world in real-time typing races!</p>
+                    <a href="multiplayer.html" class="btn btn-primary path-btn">Join Race →</a>
+                </div>
             </div>
         </div>
 
@@ -276,8 +283,8 @@
         </div>
 
         <div class="keyboard-visual">
-            <svg id="keyboard" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 350" preserveAspectRatio="xMidYMid meet">
-              <rect width="1100" height="350" fill="#f8f9fa"/>
+            <svg id="keyboard" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 280" preserveAspectRatio="xMidYMid meet">
+              <rect width="900" height="280" fill="#f8f9fa"/>
 
               <defs>
                 <style>
@@ -293,66 +300,65 @@
                   .key-text { font-size: 18px; font-weight: bold; fill: #333; pointer-events: none; user-select: none; }
                 </style>
               </defs>
-
-              <g id="keys" transform="translate(50,30)">
+              <g id="keys" transform="translate(30,20)">
                 <!-- Row 1 -->
                 <g id="row1">
-                  <rect id="TAB" x="0" y="0" width="70" height="60" rx="8" class="key-rect left-pinky"/><text x="35" y="38" text-anchor="middle" class="key-text">Tab</text>
-                  <rect id="Q" x="80" y="0" width="60" height="60" rx="8" class="key-rect left-pinky"/><text x="110" y="38" text-anchor="middle" class="key-text">Q</text>
-                  <rect id="W" x="150" y="0" width="60" height="60" rx="8" class="key-rect left-ring"/><text x="180" y="38" text-anchor="middle" class="key-text">W</text>
-                  <rect id="E" x="220" y="0" width="60" height="60" rx="8" class="key-rect left-middle"/><text x="250" y="38" text-anchor="middle" class="key-text">E</text>
-                  <rect id="R" x="290" y="0" width="60" height="60" rx="8" class="key-rect left-index"/><text x="320" y="38" text-anchor="middle" class="key-text">R</text>
-                  <rect id="T" x="360" y="0" width="60" height="60" rx="8" class="key-rect left-index"/><text x="390" y="38" text-anchor="middle" class="key-text">T</text>
-                  <rect id="Y" x="430" y="0" width="60" height="60" rx="8" class="key-rect right-index"/><text x="460" y="38" text-anchor="middle" class="key-text">Y</text>
-                  <rect id="U" x="500" y="0" width="60" height="60" rx="8" class="key-rect right-index"/><text x="530" y="38" text-anchor="middle" class="key-text">U</text>
-                  <rect id="I" x="570" y="0" width="60" height="60" rx="8" class="key-rect right-middle"/><text x="600" y="38" text-anchor="middle" class="key-text">I</text>
-                  <rect id="O" x="640" y="0" width="60" height="60" rx="8" class="key-rect right-ring"/><text x="670" y="38" text-anchor="middle" class="key-text">O</text>
-                  <rect id="P" x="710" y="0" width="60" height="60" rx="8" class="key-rect right-pinky"/><text x="740" y="38" text-anchor="middle" class="key-text">P</text>
-                  <rect id="[" x="780" y="0" width="60" height="60" rx="8" class="key-rect right-pinky"/><text x="810" y="38" text-anchor="middle" class="key-text">[</text>
-                  <rect id="]" x="850" y="0" width="60" height="60" rx="8" class="key-rect right-pinky"/><text x="880" y="38" text-anchor="middle" class="key-text">]</text>
-                  <rect id="\\" x="920" y="0" width="60" height="60" rx="8" class="key-rect right-pinky"/><text x="950" y="38" text-anchor="middle" class="key-text">\\</text>
+                  <rect id="TAB" x="0" y="0" width="55" height="48" rx="6" class="key-rect left-pinky"/><text x="27.5" y="32" text-anchor="middle" class="key-text">Tab</text>
+                  <rect id="Q" x="60" y="0" width="48" height="48" rx="6" class="key-rect left-pinky"/><text x="84" y="32" text-anchor="middle" class="key-text">Q</text>
+                  <rect id="W" x="113" y="0" width="48" height="48" rx="6" class="key-rect left-ring"/><text x="137" y="32" text-anchor="middle" class="key-text">W</text>
+                  <rect id="E" x="166" y="0" width="48" height="48" rx="6" class="key-rect left-middle"/><text x="190" y="32" text-anchor="middle" class="key-text">E</text>
+                  <rect id="R" x="219" y="0" width="48" height="48" rx="6" class="key-rect left-index"/><text x="243" y="32" text-anchor="middle" class="key-text">R</text>
+                  <rect id="T" x="272" y="0" width="48" height="48" rx="6" class="key-rect left-index"/><text x="296" y="32" text-anchor="middle" class="key-text">T</text>
+                  <rect id="Y" x="325" y="0" width="48" height="48" rx="6" class="key-rect right-index"/><text x="349" y="32" text-anchor="middle" class="key-text">Y</text>
+                  <rect id="U" x="378" y="0" width="48" height="48" rx="6" class="key-rect right-index"/><text x="402" y="32" text-anchor="middle" class="key-text">U</text>
+                  <rect id="I" x="431" y="0" width="48" height="48" rx="6" class="key-rect right-middle"/><text x="455" y="32" text-anchor="middle" class="key-text">I</text>
+                  <rect id="O" x="484" y="0" width="48" height="48" rx="6" class="key-rect right-ring"/><text x="508" y="32" text-anchor="middle" class="key-text">O</text>
+                  <rect id="P" x="537" y="0" width="48" height="48" rx="6" class="key-rect right-pinky"/><text x="561" y="32" text-anchor="middle" class="key-text">P</text>
+                  <rect id="[" x="590" y="0" width="48" height="48" rx="6" class="key-rect right-pinky"/><text x="614" y="32" text-anchor="middle" class="key-text">[</text>
+                  <rect id="]" x="643" y="0" width="48" height="48" rx="6" class="key-rect right-pinky"/><text x="667" y="32" text-anchor="middle" class="key-text">]</text>
+                  <rect id="\\" x="696" y="0" width="48" height="48" rx="6" class="key-rect right-pinky"/><text x="720" y="32" text-anchor="middle" class="key-text">\\</text>
                 </g>
 
                 <!-- Row 2 -->
-                <g id="row2" transform="translate(20,80)">
-                  <rect id="CAPSLOCK" x="0" y="0" width="90" height="60" rx="8" class="key-rect left-pinky"/><text x="45" y="38" text-anchor="middle" class="key-text">Caps</text>
-                  <rect id="A" x="100" y="0" width="60" height="60" rx="8" class="key-rect left-pinky"/><text x="130" y="38" text-anchor="middle" class="key-text">A</text>
-                  <rect id="S" x="170" y="0" width="60" height="60" rx="8" class="key-rect left-ring"/><text x="200" y="38" text-anchor="middle" class="key-text">S</text>
-                  <rect id="D" x="240" y="0" width="60" height="60" rx="8" class="key-rect left-middle"/><text x="270" y="38" text-anchor="middle" class="key-text">D</text>
-                  <rect id="F" x="310" y="0" width="60" height="60" rx="8" class="key-rect left-index"/><text x="340" y="38" text-anchor="middle" class="key-text">F</text>
-                  <rect id="G" x="380" y="0" width="60" height="60" rx="8" class="key-rect left-index"/><text x="410" y="38" text-anchor="middle" class="key-text">G</text>
-                  <rect id="H" x="450" y="0" width="60" height="60" rx="8" class="key-rect right-index"/><text x="480" y="38" text-anchor="middle" class="key-text">H</text>
-                  <rect id="J" x="520" y="0" width="60" height="60" rx="8" class="key-rect right-index"/><text x="550" y="38" text-anchor="middle" class="key-text">J</text>
-                  <rect id="K" x="590" y="0" width="60" height="60" rx="8" class="key-rect right-middle"/><text x="620" y="38" text-anchor="middle" class="key-text">K</text>
-                  <rect id="L" x="660" y="0" width="60" height="60" rx="8" class="key-rect right-ring"/><text x="690" y="38" text-anchor="middle" class="key-text">L</text>
-                  <rect id=";" x="730" y="0" width="60" height="60" rx="8" class="key-rect right-pinky"/><text x="760" y="38" text-anchor="middle" class="key-text">;</text>
-                  <rect id="'" x="800" y="0" width="60" height="60" rx="8" class="key-rect right-pinky"/><text x="830" y="38" text-anchor="middle" class="key-text">'</text>
-                  <rect id="ENTER" x="870" y="0" width="100" height="60" rx="8" class="key-rect right-pinky"/><text x="920" y="38" text-anchor="middle" class="key-text">Enter</text>
+                <g id="row2" transform="translate(15,53)">
+                  <rect id="CAPSLOCK" x="0" y="0" width="70" height="48" rx="6" class="key-rect left-pinky"/><text x="35" y="32" text-anchor="middle" class="key-text">Caps</text>
+                  <rect id="A" x="75" y="0" width="48" height="48" rx="6" class="key-rect left-pinky"/><text x="99" y="32" text-anchor="middle" class="key-text">A</text>
+                  <rect id="S" x="128" y="0" width="48" height="48" rx="6" class="key-rect left-ring"/><text x="152" y="32" text-anchor="middle" class="key-text">S</text>
+                  <rect id="D" x="181" y="0" width="48" height="48" rx="6" class="key-rect left-middle"/><text x="205" y="32" text-anchor="middle" class="key-text">D</text>
+                  <rect id="F" x="234" y="0" width="48" height="48" rx="6" class="key-rect left-index"/><text x="258" y="32" text-anchor="middle" class="key-text">F</text>
+                  <rect id="G" x="287" y="0" width="48" height="48" rx="6" class="key-rect left-index"/><text x="311" y="32" text-anchor="middle" class="key-text">G</text>
+                  <rect id="H" x="340" y="0" width="48" height="48" rx="6" class="key-rect right-index"/><text x="364" y="32" text-anchor="middle" class="key-text">H</text>
+                  <rect id="J" x="393" y="0" width="48" height="48" rx="6" class="key-rect right-index"/><text x="417" y="32" text-anchor="middle" class="key-text">J</text>
+                  <rect id="K" x="446" y="0" width="48" height="48" rx="6" class="key-rect right-middle"/><text x="470" y="32" text-anchor="middle" class="key-text">K</text>
+                  <rect id="L" x="499" y="0" width="48" height="48" rx="6" class="key-rect right-ring"/><text x="523" y="32" text-anchor="middle" class="key-text">L</text>
+                  <rect id=";" x="552" y="0" width="48" height="48" rx="6" class="key-rect right-pinky"/><text x="576" y="32" text-anchor="middle" class="key-text">;</text>
+                  <rect id="'" x="605" y="0" width="48" height="48" rx="6" class="key-rect right-pinky"/><text x="629" y="32" text-anchor="middle" class="key-text">'</text>
+                  <rect id="ENTER" x="658" y="0" width="76" height="48" rx="6" class="key-rect right-pinky"/><text x="696" y="32" text-anchor="middle" class="key-text">Enter</text>
                 </g>
 
                 <!-- Row 3 -->
-                <g id="row3" transform="translate(40,160)">
-                  <rect id="SHIFTLEFT" x="0" y="0" width="110" height="60" rx="8" class="key-rect left-pinky"/><text x="55" y="38" text-anchor="middle" class="key-text">Shift</text>
-                  <rect id="Z" x="120" y="0" width="60" height="60" rx="8" class="key-rect left-pinky"/><text x="150" y="38" text-anchor="middle" class="key-text">Z</text>
-                  <rect id="X" x="190" y="0" width="60" height="60" rx="8" class="key-rect left-ring"/><text x="220" y="38" text-anchor="middle" class="key-text">X</text>
-                  <rect id="C" x="260" y="0" width="60" height="60" rx="8" class="key-rect left-middle"/><text x="290" y="38" text-anchor="middle" class="key-text">C</text>
-                  <rect id="V" x="330" y="0" width="60" height="60" rx="8" class="key-rect left-index"/><text x="360" y="38" text-anchor="middle" class="key-text">V</text>
-                  <rect id="B" x="400" y="0" width="60" height="60" rx="8" class="key-rect left-index"/><text x="430" y="38" text-anchor="middle" class="key-text">B</text>
-                  <rect id="N" x="470" y="0" width="60" height="60" rx="8" class="key-rect right-index"/><text x="500" y="38" text-anchor="middle" class="key-text">N</text>
-                  <rect id="M" x="540" y="0" width="60" height="60" rx="8" class="key-rect right-index"/><text x="570" y="38" text-anchor="middle" class="key-text">M</text>
-                  <rect id="," x="610" y="0" width="60" height="60" rx="8" class="key-rect right-middle"/><text x="640" y="38" text-anchor="middle" class="key-text">,</text>
-                  <rect id="." x="680" y="0" width="60" height="60" rx="8" class="key-rect right-middle"/><text x="710" y="38" text-anchor="middle" class="key-text">.</text>
-                  <rect id="/" x="750" y="0" width="60" height="60" rx="8" class="key-rect right-pinky"/><text x="780" y="38" text-anchor="middle" class="key-text">/</text>
-                  <rect id="SHIFTRIGHT" x="820" y="0" width="110" height="60" rx="8" class="key-rect right-pinky"/><text x="875" y="38" text-anchor="middle" class="key-text">Shift</text>
+                <g id="row3" transform="translate(30,106)">
+                  <rect id="SHIFTLEFT" x="0" y="0" width="85" height="48" rx="6" class="key-rect left-pinky"/><text x="42.5" y="32" text-anchor="middle" class="key-text">Shift</text>
+                  <rect id="Z" x="90" y="0" width="48" height="48" rx="6" class="key-rect left-pinky"/><text x="114" y="32" text-anchor="middle" class="key-text">Z</text>
+                  <rect id="X" x="143" y="0" width="48" height="48" rx="6" class="key-rect left-ring"/><text x="167" y="32" text-anchor="middle" class="key-text">X</text>
+                  <rect id="C" x="196" y="0" width="48" height="48" rx="6" class="key-rect left-middle"/><text x="220" y="32" text-anchor="middle" class="key-text">C</text>
+                  <rect id="V" x="249" y="0" width="48" height="48" rx="6" class="key-rect left-index"/><text x="273" y="32" text-anchor="middle" class="key-text">V</text>
+                  <rect id="B" x="302" y="0" width="48" height="48" rx="6" class="key-rect left-index"/><text x="326" y="32" text-anchor="middle" class="key-text">B</text>
+                  <rect id="N" x="355" y="0" width="48" height="48" rx="6" class="key-rect right-index"/><text x="379" y="32" text-anchor="middle" class="key-text">N</text>
+                  <rect id="M" x="408" y="0" width="48" height="48" rx="6" class="key-rect right-index"/><text x="432" y="32" text-anchor="middle" class="key-text">M</text>
+                  <rect id="," x="461" y="0" width="48" height="48" rx="6" class="key-rect right-middle"/><text x="485" y="32" text-anchor="middle" class="key-text">,</text>
+                  <rect id="." x="514" y="0" width="48" height="48" rx="6" class="key-rect right-middle"/><text x="538" y="32" text-anchor="middle" class="key-text">.</text>
+                  <rect id="/" x="567" y="0" width="48" height="48" rx="6" class="key-rect right-pinky"/><text x="591" y="32" text-anchor="middle" class="key-text">/</text>
+                  <rect id="SHIFTRIGHT" x="620" y="0" width="85" height="48" rx="6" class="key-rect right-pinky"/><text x="662.5" y="32" text-anchor="middle" class="key-text">Shift</text>
                 </g>
 
                 <!-- Bottom row -->
-                <g id="row4" transform="translate(30,240)">
-                  <rect id="CTRLLEFT" x="0" y="0" width="80" height="60" rx="8" class="key-rect left-pinky"/><text x="40" y="38" text-anchor="middle" class="key-text">Ctrl</text>
-                  <rect id="ALTLEFT" x="90" y="0" width="80" height="60" rx="8" class="key-rect left-ring"/><text x="130" y="38" text-anchor="middle" class="key-text">Alt</text>
-                  <rect id="SPACE" x="180" y="0" width="400" height="60" rx="8" class="key-rect" fill="#e0f7fa"/><text x="380" y="38" text-anchor="middle" class="key-text">Space</text>
-                  <rect id="ALTRIGHT" x="590" y="0" width="80" height="60" rx="8" class="key-rect right-ring"/><text x="630" y="38" text-anchor="middle" class="key-text">Alt</text>
-                  <rect id="CTRLRIGHT" x="680" y="0" width="80" height="60" rx="8" class="key-rect right-pinky"/><text x="720" y="38" text-anchor="middle" class="key-text">Ctrl</text>
+                <g id="row4" transform="translate(20,159)">
+                  <rect id="CTRLLEFT" x="0" y="0" width="62" height="48" rx="6" class="key-rect left-pinky"/><text x="31" y="32" text-anchor="middle" class="key-text">Ctrl</text>
+                  <rect id="ALTLEFT" x="67" y="0" width="62" height="48" rx="6" class="key-rect left-ring"/><text x="98" y="32" text-anchor="middle" class="key-text">Alt</text>
+                  <rect id="SPACE" x="134" y="0" width="320" height="48" rx="6" class="key-rect" fill="#e0f7fa"/><text x="294" y="32" text-anchor="middle" class="key-text">Space</text>
+                  <rect id="ALTRIGHT" x="459" y="0" width="62" height="48" rx="6" class="key-rect right-ring"/><text x="490" y="32" text-anchor="middle" class="key-text">Alt</text>
+                  <rect id="CTRLRIGHT" x="526" y="0" width="62" height="48" rx="6" class="key-rect right-pinky"/><text x="557" y="32" text-anchor="middle" class="key-text">Ctrl</text>
                 </g>
               </g>
             </svg>
