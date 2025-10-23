@@ -419,7 +419,14 @@ io.on('connection', (socket) => {
 
 // Start server
 const PORT = process.env.PORT || 3000;
-http.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    console.log(`Visit http://localhost:${PORT}/multiplayer.html to play`);
-});
+
+// Only listen if not in Vercel serverless environment
+if (process.env.VERCEL !== '1') {
+    http.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+        console.log(`Visit http://localhost:${PORT}/multiplayer.html to play`);
+    });
+}
+
+// Export for Vercel serverless
+module.exports = http;
